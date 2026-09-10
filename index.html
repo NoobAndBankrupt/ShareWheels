@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShareWheels</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+   <!-- EXACT GLOBAL HEADER -->
+  <header class="site-header">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="ShareWheels home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" class="brand-svg">
+          <circle cx="12" cy="12" r="10" stroke="#304A2F" stroke-width="3"/>
+          <circle cx="12" cy="12" r="3" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M12 2v7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M12 15v7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M2 12h7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M15 12h7" stroke="#6B8E23" stroke-width="2"/>
+        </svg>
+        <div class="brand-text">
+          <span class="share-text" style="color: #6B8E23;">Share</span><span class="wheels-text" style="color: #304A2F;">Wheels</span>
+        </div>
+      </a>
+    <div class="nav-actions">
+  <!-- Offer a ride button -->
+  <button class="offer-btn" onclick="window.location.href='publish.html'">Offer a ride</button>
+  
+  <!-- Profile Wrapper -->
+  <div class="profile-menu-wrapper" style="position: relative;">
+    
+    <button id="navAvatarBtn" class="avatar" aria-label="Profile" onclick="document.getElementById('profileDropdown').style.display = (document.getElementById('profileDropdown').style.display === 'flex') ? 'none' : 'flex'; event.stopPropagation();">●</button>
+    
+    <!-- The Dropdown Menu with Inline CSS -->
+    <div id="profileDropdown" style="display: none; position: absolute; top: 50px; right: 0; width: 160px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-direction: column; z-index: 1000; border: 1px solid #D9DED2; overflow: hidden;">
+      
+      <div id="dropdownContent">
+        <a href="login.html" style="padding: 14px 20px; text-decoration: none; color: #304A2F; font-weight: 600; font-size: 14px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+          Log in <span style="color: #888;">›</span>
+        </a>
+        <a href="signup.html" style="padding: 14px 20px; text-decoration: none; color: #304A2F; font-weight: 600; font-size: 14px; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+          Sign up <span style="color: #888;">›</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const storedUser = localStorage.getItem('sharewheels_user');
+    
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        const userName = user.name || 'User';
+        const initial = userName.charAt(0).toUpperCase();
+
+        const profileWrapper = document.querySelector('.profile-menu-wrapper');
+        
+        if (profileWrapper) {
+              profileWrapper.innerHTML = `
+                <button id="navAvatarBtn" class="avatar" aria-label="Profile" onclick="document.getElementById('profileDropdown').style.display = (document.getElementById('profileDropdown').style.display === 'flex') ? 'none' : 'flex'; event.stopPropagation();" style="background: #6B8E23; color: white; border: none; font-weight: 700; font-size: 16px;">
+                  ${initial}
+                </button>
+                
+                <div id="profileDropdown" style="display: none; position: absolute; top: 50px; right: 0; width: 180px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-direction: column; z-index: 1000; border: 1px solid #D9DED2; overflow: hidden;">
+                  
+                  <div style="padding: 14px 20px; color: #304A2F; font-weight: 700; font-size: 13px; border-bottom: 1px solid #f0f0f0; background: #F5F7EE;">
+                    Hello, ${userName}
+                  </div>
+                  
+                  <a href="profile.html" style="padding: 14px 20px; text-decoration: none; color: #304A2F; font-weight: 600; font-size: 14px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+                    My Profile <span style="color: #6B8E23;">›</span>
+                  </a>
+
+                  <a href="dashboard.html" style="padding: 14px 20px; text-decoration: none; color: #304A2F; font-weight: 600; font-size: 14px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+                    My Dashboard <span style="color: #6B8E23;">›</span>
+                  </a>
+                  
+                  <a href="#" id="logoutBtn" style="padding: 14px 20px; text-decoration: none; color: #d9534f; font-weight: 600; font-size: 14px; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+                    Log out <span>⎋</span>
+                  </a>
+                </div>
+              `;
+          document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('sharewheels_user');
+            window.location.reload(); 
+          });
+        }
+      } catch (e) {
+        console.error("Error parsing user data", e);
+      }
+    }
+  });
+  
+  document.addEventListener('click', function(event) {
+    var dropdown = document.getElementById('profileDropdown');
+    if (dropdown && dropdown.style.display === 'flex') {
+      dropdown.style.display = 'none';
+    }
+  });
+</script>
+    <div class="sticky-search" id="stickySearch">
+      <div class="wrap">
+        <div class="desktop-search">
+  <div class="search-field">
+    <small>From</small>
+    <input type="text" id="searchLeavingFrom" class="search-input" placeholder="Locality or Place">
+  </div>
+  
+  <div class="search-field">
+    <small>To</small>
+    <select id="searchGoingTo" class="search-input" style="background: white; cursor: pointer;">
+      <option value="" disabled selected>University's Name</option>
+      <option value="Shivaji College">Shivaji College (Delhi)</option>
+      <option value="IIT Delhi">IIT Delhi (Hauz Khas)</option>
+      <option value="Hansraj College">Hansraj College (North Campus)</option>
+      <option value="IGNOU Regional Centre">IGNOU Regional Centre (Delhi)</option>
+      <option value="Amity University">Amity University (Noida)</option>
+      <option value="Dronacharya College">Dronacharya College (Gurgaon)</option>
+    </select>
+  </div>
+  
+  <div class="search-field">
+    <small>Time</small>
+    <input type="time" class="search-input" value="09:00">
+  </div>
+  
+  <div class="search-field passenger-field">
+    <small>Passengers</small>
+    <div class="passenger-controls">
+      <button type="button" class="qty-btn" onclick="decreasePassengers()">-</button>
+      <input type="text" class="passenger-count-input" value="1 passenger" readonly>
+      <button type="button" class="qty-btn" onclick="increasePassengers()">+</button>
+    </div>
+  </div>
+  
+  <button class="search-btn" id="searchBtn">Search</button>
+</div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <h1>Travel to your college<br>together.<br>Spend smarter.</h1>
+      </div>
+      <img src="assets/hero.jpg" class="hero-image" alt="Two friends travelling together" />
+    </section>
+
+   <section class="search-area wrap">
+      <div class="desktop-search">
+        <div class="search-field">
+          <small>From</small>
+          <input type="text" id="mainSearchLeavingFrom" class="search-input" placeholder="Locality or Place">
+        </div>
+        
+        <div class="search-field">
+  <small>To</small>
+  <input type="text" id="mainSearchGoingTo" class="search-input" list="collegeList" placeholder="University's Name" autocomplete="off">
+  
+  <datalist id="collegeList">
+    <option value="Shivaji College">
+    <option value="IIT Delhi">
+    <option value="Hansraj College">
+    <option value="IGNOU Regional Centre">
+    <option value="Amity University">
+    <option value="Dronacharya College">
+  </datalist>
+</div>
+        
+        <div class="search-field">
+  <small>Time</small>
+  <input type="time" id="mainSearchTime" class="search-input" value="09:00">
+</div>
+
+<div class="search-field passenger-field">
+  <small>Passengers</small>
+  <div class="passenger-controls">
+    <button type="button" class="qty-btn" onclick="decreasePassengers()">-</button>
+    <input type="text" id="mainSearchPassengers" class="passenger-count-input" value="1 passenger" readonly>
+    <button type="button" class="qty-btn" onclick="increasePassengers()">+</button>
+  </div>
+</div>
+        
+        <button class="search-btn" id="mainSearchBtn">Search</button>
+      </div>
+    </section>
+
+    <!-- The container for search results -->
+    <section id="searchResults" class="wrap" style="display: none; padding-top: 40px; padding-bottom: 20px;">
+      <h2 style="color: #304A2F; margin-bottom: 20px;">Available Rides</h2>
+      <div id="ridesContainer" style="display: flex; flex-direction: column; gap: 16px;">
+        <!-- Javascript will automatically inject the ride cards here -->
+      </div>
+    </section>
+
+    <section class="benefits wrap">
+      <div><div class="benefit-icon">♙</div><h3>Travel Together</h3><p>Explore all colleges of Delhi &amp Delhi NCR with countless ShareWheels rides.</p></div>
+      <div><div class="benefit-icon">▣</div><h3>Prices like nowhere</h3><p>Benefit from great-value shared costs on your ShareWheels rides.</p></div>
+      <div><div class="benefit-icon">♡</div><h3>Ride with confidence</h3><p>Feel secure, knowing you're riding with ShareWheels members with Verified Profiles.</p></div>
+    </section>
+
+    <section class="routes">
+      <div class="wrap">
+        <h2>Top ShareWheels rides</h2>
+        <div class="route-grid">
+          <button>Gurgaon → Hansraj College of Delhi <span>›</span></button>
+          <button>Dadri → Hindu University of Delhi<span>›</span></button>
+          <button>Meerut → Daulat Ram College of Delhi<span>›</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature wrap two-col alert-section">
+      <img src="assets/alert-driver.jpg" alt="Driver in a car" />
+      <div>
+        <h2>Never miss a ShareWheels Ride!</h2>
+        <p>"Guys, if you are still taking daily cabs to college, you are seriously burning money! 💸 I just switched to ShareWheels and my daily travel costs instantly dropped by 75%. It is an absolute game-changer. Since it is a ShareWheels system built specifically for college students, I am riding with people from our campus instead of strangers. It’s safe, super cheap, and I’ve already met some awesome people to split rides with."</p>
+        <button class="primary" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Find a ride</button>
+      </div>
+    </section>
+
+    <section class="share wrap">
+      <h2>Share your ride. Cut your costs.</h2>
+      <p>ShareWheels as a driver to turn your empty seats into lower travel costs. It's simple: publish your ride<br>and get passengers to share your fuel and toll expenses.</p>
+     <button class="pill" onclick="window.location.href='publish.html'">→ &nbsp; Share your ride</button>
+</section>
+
+    <section class="feature wrap two-col testimonial">
+      <div>
+        <h2>Only on ShareWheels...</h2>
+        <blockquote>"ShareWheels great: I pay a little money to get to my college on time, in comfort, and in AC! And I know it's nice for the other travelling student to get a little financial help when they're travelling alone."</blockquote>
+        <strong>Amit, from NOIDA</strong>
+      </div>
+      <img src="assets/testimonial.jpg" alt="Happy driver" />
+    </section>
+
+    <section class="feature wrap two-col experience">
+      <img src="assets/fuel.jpg" alt="students refueling at a fuel station" />
+      <div>
+        <h2>1k+ members. 1 year experience.</h2>
+        <p>Join the Delhi's #1 Ride Sharing community, trusted by 1000+ college students. For a years, we've helped students share rides, save money and travel with confidence and saafety. And if you need us, our responsive support team is here to help. So, Which college do you travel to?</p>
+      </div>
+    </section>
+
+    <section class="help wrap">
+      <h2>ShareWheels Help Centre</h2>
+      <div class="help-grid">
+        <article><h3>How do I book a ShareWheels ride?</h3><p>You can book a ShareWheels ride on our website. Simply search for your college name,and pick the ShareWheels ride that suits you best!...</p></article>
+        <article><h3>How do I publish a ShareWheels ride?</h3><p>Offering a ShareWheels ride on ShareWheels is easy. To publish your ride, use our website. Indicate your route and passing main landmarks names, time of your departure...</article>
+        <article><h3>How do I cancel my ShareWheels ride?</h3><p>If you have a change of plans, you can always cancel your ShareWheels ride from the website. The sooner you cancel, the better. So that the other student get nofified...</p></article>
+        <article><h3>What are the benefits of travelling by ShareWheels?</h3><p>There are multiple advantages to ShareWheelsing, over other means of transport. Travelling by ShareWheels is usually more affordable, especially for longer distances. ShareWheelsing is also more eco-...</article>
+        <article><h3>How much does a ShareWheels ride cost?</h3><p>The costs of a ShareWheels ride can vary greatly, and depend on factors like distance. It is also up to the vehicles mileage division of fare...</p></article>
+        <article><h3>How do I start Sharing my empty seats?</h3><p>Ride Sharing with ShareWheels is super easy, and free! Simply sign up for an account and tell us some basic details about yourself. Once you have a ShareWheels account, you can start booking or...</p></article>
+      </div>
+      <button class="primary help-btn">Read our Help Centre</button>
+    </section>
+  </main>
+
+  <footer>
+  <div class="wrap footer-top">
+  <div>
+    <h3>Travel with ShareWheels</h3>
+    <a>Rohini → Shyam Lal College</a>
+    <a>Gurgaon → Hansraj College</a>
+    <a>Faridabad → Hansraj College</a>
+    <a>Hansraj College → Anand Vihar</a>
+    <a>Rohini → IIT Delhi</a>
+    <a>Meerut → Khalsa College</a>
+    <a>Popular ShareWheels rides</a>
+  </div>
+  
+  <div>
+    <h3>Find out more</h3>
+    <a>Who we are</a>
+    <a>How does ShareWheels work?</a>
+    <a>Help Centre</a>
+  </div>
+  
+   <div class="socials">
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/wheelsshare" target="_blank" rel="noopener noreferrer" style="color: inherit;">
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></span>
+  </a>
+  
+  <!-- Facebook -->
+  <a href="https://www.facebook.com/share/1YhYDXWpGz/" target="_blank" rel="noopener noreferrer" style="color: inherit;">
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></span>
+  </a>
+  
+  <!-- X (Twitter) -->
+  <a href="https://x.com/king910230" target="_blank" rel="noopener noreferrer" style="color: inherit;">
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></span>
+  </a>
+
+  <!-- GitHub -->
+  <a href="https://github.com/NoobAndBankrupt/ShareWheels" target="_blank" rel="noopener noreferrer" style="color: inherit;">
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></span>
+  </a>
+</div>
+</div>  
+    <div class="wrap footer-bottom"><span>Terms and Conditions</span><span> ShareWheels, 2026 ©</span></div>
+  </footer>
+  <div class="cookie"><span>ShareWheels is using cookies to deliver a better service. By using our website, you agree to our policy on cookies usage.</span><button>Close</button></div>
+  
+  <script src="script.js"></script>
+
+  <!-- CLEAN SEARCH AND JOIN RIDE LOGIC -->
+  <script>
+    // --- 1. SEARCH FOR RIDES ---
+    document.getElementById('mainSearchBtn').addEventListener('click', async () => {
+      const leavingFrom = document.getElementById('mainSearchLeavingFrom').value.trim();
+      const goingTo = document.getElementById('mainSearchGoingTo').value.trim();
+      const btn = document.getElementById('mainSearchBtn');
+
+      btn.innerText = "Searching...";
+
+      try {
+        const response = await fetch(`http://localhost:3000/api/search-rides?leavingFrom=${leavingFrom}&goingTo=${goingTo}`);
+        const rides = await response.json();
+        
+        const container = document.getElementById('ridesContainer');
+        const resultsSection = document.getElementById('searchResults');
+        
+        if (rides.length === 0) {
+          container.innerHTML = '<p style="color: #7A8375;">No rides found for this route right now. Try a different college!</p>';
+        } else {
+          container.innerHTML = rides.map(ride => `
+            <div style="background: white; border: 1px solid #D9DED2; border-radius: 16px; padding: 25px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #F0F2EB; padding-bottom: 15px; margin-bottom: 15px;">
+                <h3 style="margin: 0; color: #304A2F; font-size: 18px;">${ride.startLocation} ➔ ${ride.endLocation}</h3>
+                <span style="background: #F5F7EE; color: #304A2F; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${ride.departureTime}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <p style="margin: 0; color: #7A8375; font-size: 14px; font-weight: 600;">Driver: ${ride.driverName}</p>
+                  <p style="margin: 4px 0 0 0; color: #6B8E23; font-size: 13px;">Seats Available: ${ride.seatsAvailable}</p>
+                </div>
+                
+                <button onclick="confirmAndJoinRide('${ride._id || ride.id}')" style="background: #304A2F; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;">Join Ride</button>
+              </div>
+            </div>
+          `).join('');
+        }
+        
+        resultsSection.style.display = 'block';
+        btn.innerText = "Search";
+        resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+      } catch (err) {
+        console.error(err);
+        alert("Failed to connect to the server.");
+        btn.innerText = "Search";
+      }
+    });
+
+    // --- 2. JOIN A RIDE ---
+    async function confirmAndJoinRide(rideId) {
+      console.log("Attempting to join ride ID:", rideId);
+
+      if (!rideId || rideId === 'undefined') {
+        alert("Error: Invalid Ride ID. Please search again.");
+        return;
+      }
+
+      const userString = localStorage.getItem('sharewheels_user');
+      
+      if (!userString) {
+        alert("You need to log in to join a ride!");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const user = JSON.parse(userString);
+      const activeUserId = user._id || user.id;
+
+      if (confirm("Confirm joining this ride? The driver's car details will appear on your dashboard.")) {
+        try {
+          const response = await fetch('http://localhost:3000/api/join-ride', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              rideId: rideId, 
+              passengerId: activeUserId,
+              passengerName: user.name,
+              passengerEmail: user.email,
+              passengerPhone: user.phone || ''
+            })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            alert("Success! You have joined the ride. Redirecting to your Dashboard...");
+            window.location.href = "dashboard.html";
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (err) {
+          console.error("Network or server error:", err);
+          alert("Server error while trying to join the ride.");
+        }
+      }
+    }
+  </script>
+</body>
+</html>

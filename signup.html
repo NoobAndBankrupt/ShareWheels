@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - ShareWheels</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- EXACT GLOBAL HEADER -->
+  <header class="site-header">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="ShareWheels home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" class="brand-svg">
+          <circle cx="12" cy="12" r="10" stroke="#304A2F" stroke-width="3"/>
+          <circle cx="12" cy="12" r="3" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M12 2v7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M12 15v7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M2 12h7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M15 12h7" stroke="#6B8E23" stroke-width="2"/>
+        </svg>
+        <div class="brand-text">
+          <span class="share-text" style="color: #6B8E23;">Share</span><span class="wheels-text" style="color: #304A2F;">Wheels</span>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <button class="offer-btn" onclick="window.location.href='publish.html'">Offer a ride</button>
+        <div class="profile-menu-wrapper" style="position: relative;">
+          <button class="avatar" aria-label="Profile" onclick="document.getElementById('profileDropdown').style.display = (document.getElementById('profileDropdown').style.display === 'flex') ? 'none' : 'flex'; event.stopPropagation();">●</button>
+          <div id="profileDropdown" style="display: none; position: absolute; top: 50px; right: 0; width: 160px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-direction: column; z-index: 1000; border: 1px solid #D9DED2; overflow: hidden;">
+            <a href="login.html" style="padding: 14px 20px; text-decoration: none; color: #304A2F; font-weight: 600; font-size: 14px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+              Log in <span style="color: #888;">›</span>
+            </a>
+            <a href="signup.html" style="padding: 14px 20px; text-decoration: none; color: #304A2F; font-weight: 600; font-size: 14px; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+              Sign up <span style="color: #888;">›</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SIGN UP MAIN CONTENT -->
+   <main class="bbc-auth-main signup-page">
+    <div class="bbc-auth-container">
+      <h1 style="margin-bottom: 25px;">Create your account</h1>
+      
+      <div id="signupForm" class="bbc-auth-list">
+  
+          <!-- STEP 1: PHONE VERIFICATION -->
+          <div id="step1-phone" style="display: flex; flex-direction: column; gap: 14px;">
+            <p style="color: #687263; font-size: 13px; margin: 0; text-align: left;">Step 1: Verify your mobile number</p>
+            
+            <div class="bbc-auth-row" style="cursor: text; padding: 0; display: flex; align-items: center; text-align: left; overflow: hidden;">
+                <span style="padding: 18px 15px; background: #F5F7EE; color: #304A2F; font-weight: 600; border-right: 1px solid #D9DED2;">+91</span>
+                <div class="bbc-input-text" style="width: 100%; padding: 8px 15px;">
+                    <label style="font-size: 10px; color: #7A8375; margin-bottom: 2px;">Mobile Number</label>
+                    <input type="number" id="signupPhone" class="search-input" placeholder="98765 43210" required style="font-size: 15px; font-weight: 600; color: #304A2F; width: 100%; border: none; outline: none; background: transparent;">
+                </div>
+            </div>
+
+            <div id="recaptcha-container" style="display: flex; justify-content: center;"></div>
+            
+            <button type="button" id="sendSignupSmsBtn" class="primary" style="width: 100%; font-size: 15px; padding: 15px; border-radius: 16px;">
+              Send SMS OTP
+            </button>
+
+            <div id="signupSmsVerifyArea" style="display: none; flex-direction: column; gap: 14px; margin-top: 10px;">
+                <div class="bbc-auth-row" style="cursor: text; padding: 8px 15px; display: block; text-align: left;">
+                    <div class="bbc-input-text" style="width: 100%;">
+                        <label style="font-size: 10px; color: #7A8375; margin-bottom: 2px;">6-Digit SMS OTP</label>
+                        <input type="text" id="signupSmsCode" class="search-input" placeholder="123456" style="font-size: 18px; font-weight: 700; color: #304A2F; letter-spacing: 2px; background: transparent;">
+                    </div>
+                </div>
+                <button type="button" id="verifySignupSmsBtn" class="primary" style="width: 100%; font-size: 15px; padding: 15px; border-radius: 16px; background: #304A2F;">
+                  Verify Phone
+                </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: EMAIL VERIFICATION -->
+          <div id="step2-email" style="display: none; flex-direction: column; gap: 14px;">
+            <p style="color: #6B8E23; font-size: 14px; font-weight: bold; margin: 0; text-align: left;">✅ Mobile Verified!</p>
+            <p style="color: #687263; font-size: 13px; margin: 0; text-align: left;">Step 2: Verify your University Email</p>
+            
+            <div class="bbc-auth-row" style="cursor: text; padding: 8px 15px; display: block; text-align: left;">
+              <div class="bbc-input-text" style="width: 100%;">
+                <label style="font-size: 10px; color: #7A8375; margin-bottom: 2px;">University Email</label>
+                <input type="email" id="signupEmail" class="search-input" placeholder="student@ignou.ac.in" required style="font-size: 15px; font-weight: 600; color: #304A2F; background: transparent;">
+              </div>
+            </div>
+
+            <button type="button" id="sendEmailOtpBtn" class="primary" style="width: 100%; font-size: 15px; padding: 15px; border-radius: 16px;">
+              Send OTP to Email
+            </button>
+
+            <div id="signupEmailVerifyArea" style="display: none; flex-direction: column; gap: 14px; margin-top: 10px;">
+                <p style="color: #687263; font-size: 13px; margin: 0; text-align: left;">Check your email for the 6-digit code.</p>
+                <div class="bbc-auth-row" style="cursor: text; padding: 8px 15px; display: block; text-align: left;">
+                    <div class="bbc-input-text" style="width: 100%;">
+                        <label style="font-size: 10px; color: #7A8375; margin-bottom: 2px;">6-Digit Email OTP</label>
+                        <input type="text" id="signupEmailCode" class="search-input" placeholder="123456" style="font-size: 18px; font-weight: 700; color: #304A2F; letter-spacing: 2px; background: transparent;">
+                    </div>
+                </div>
+                <button type="button" id="continueToProfileBtn" class="primary" style="width: 100%; font-size: 15px; padding: 15px; border-radius: 16px; background: #304A2F;">
+                  Continue
+                </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: PROFILE (NAME & PASSWORD) -->
+          <div id="step3-profile" style="display: none; flex-direction: column; gap: 14px;">
+            <p style="color: #6B8E23; font-size: 14px; font-weight: bold; margin: 0; text-align: left;">✅ Contacts Verified!</p>
+            <p style="color: #687263; font-size: 13px; margin: 0; text-align: left;">Step 3: Finalize your profile</p>
+            
+            <div class="bbc-auth-row" style="cursor: text; padding: 8px 15px; display: block; text-align: left;">
+              <div class="bbc-input-text" style="width: 100%;">
+                <label style="font-size: 10px; color: #7A8375; margin-bottom: 2px;">Full Name</label>
+                <input type="text" id="signupName" class="search-input" placeholder="e.g. Sahil" required style="font-size: 15px; font-weight: 600; color: #304A2F; background: transparent;">
+              </div>
+            </div>
+
+            <div class="bbc-auth-row" style="cursor: text; padding: 8px 15px; display: block; text-align: left;">
+              <div class="bbc-input-text" style="width: 100%;">
+                <label style="font-size: 10px; color: #7A8375; margin-bottom: 2px;">Create Password</label>
+                <input type="password" id="signupPassword" class="search-input" placeholder="••••••••" required style="font-size: 15px; font-weight: 600; color: #304A2F; background: transparent;">
+              </div>
+            </div>
+
+            <button type="button" id="createAccountBtn" class="primary" style="width: 100%; font-size: 15px; padding: 15px; border-radius: 16px; background: #304A2F;">
+              Create Account
+            </button>
+          </div>
+          
+      </div>
+      <p class="bbc-auth-link">Already a member? <a href="login.html">Log in</a></p>
+    </div>
+  </main>
+
+  <!-- FIREBASE & 3-STEP WIZARD LOGIC -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDQcIDqRaHJq23HdjsDwdgboOPA6jUxVSI",
+      authDomain: "sharewheels-b9ab6.firebaseapp.com",
+      projectId: "sharewheels-b9ab6",
+      storageBucket: "sharewheels-b9ab6.firebasestorage.app",
+      messagingSenderId: "138178429966",
+      appId: "1:138178429966:web:8665013be561ee29df685f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { 'size': 'normal' });
+
+    const userData = { phone: "", uid: "", email: "", emailOtp: "" };
+
+    // --- WELCOME MODAL FUNCTION ---
+    function showWelcomeModal(user) {
+      const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+      document.getElementById('modalAvatar').innerText = initial;
+      document.getElementById('modalName').innerText = user.name || 'Carpooler';
+      document.getElementById('modalEmail').innerText = user.email || '';
+
+      document.getElementById('welcomeModal').style.display = 'flex';
+
+      const proceedHome = () => {
+        window.location.href = 'index.html';
+      };
+
+      document.getElementById('modalHomeBtn').addEventListener('click', proceedHome);
+      setTimeout(proceedHome, 3500); // Auto redirect after 3.5 seconds
+    }
+
+    // --- STEP 1: PHONE OTP ---
+    document.getElementById('sendSignupSmsBtn').addEventListener('click', () => {
+      const rawNumber = document.getElementById('signupPhone').value.trim();
+      if (rawNumber.length !== 10) return alert("Please enter a valid 10-digit mobile number.");
+      
+      const phone = "+91" + rawNumber;
+      document.getElementById('sendSignupSmsBtn').innerText = "Sending...";
+
+      signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+        .then((result) => {
+          window.confirmationResult = result;
+          document.getElementById('sendSignupSmsBtn').style.display = 'none';
+          document.getElementById('signupSmsVerifyArea').style.display = 'flex';
+        }).catch(err => {
+            alert("Error sending SMS.");
+            document.getElementById('sendSignupSmsBtn').innerText = "Send SMS OTP";
+        });
+    });
+
+    document.getElementById('verifySignupSmsBtn').addEventListener('click', () => {
+      const code = document.getElementById('signupSmsCode').value.trim();
+      document.getElementById('verifySignupSmsBtn').innerText = "Verifying...";
+      
+      window.confirmationResult.confirm(code).then((result) => {
+        userData.phone = result.user.phoneNumber;
+        userData.uid = result.user.uid;
+        
+        document.getElementById('step1-phone').style.display = 'none';
+        document.getElementById('step2-email').style.display = 'flex';
+      }).catch(err => {
+          alert("Invalid SMS OTP");
+          document.getElementById('verifySignupSmsBtn').innerText = "Verify Phone";
+      });
+    });
+
+    // --- STEP 2: EMAIL OTP ---
+    document.getElementById('sendEmailOtpBtn').addEventListener('click', async () => {
+      const email = document.getElementById('signupEmail').value.trim();
+      if(!email) return alert("Please enter your email");
+      
+      document.getElementById('sendEmailOtpBtn').innerText = "Sending OTP...";
+
+      try {
+        const response = await fetch('http://localhost:3000/api/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        
+        if (response.ok) {
+          document.getElementById('sendEmailOtpBtn').style.display = 'none';
+          document.getElementById('signupEmailVerifyArea').style.display = 'flex';
+        } else {
+          alert("Error sending email OTP");
+          document.getElementById('sendEmailOtpBtn').innerText = "Send OTP to Email";
+        }
+      } catch (err) { alert("Server error."); }
+    });
+
+    document.getElementById('continueToProfileBtn').addEventListener('click', () => {
+        const email = document.getElementById('signupEmail').value.trim();
+        const code = document.getElementById('signupEmailCode').value.trim();
+        
+        if(!code) return alert("Please enter the Email OTP");
+
+        userData.email = email;
+        userData.emailOtp = code;
+
+        document.getElementById('step2-email').style.display = 'none';
+        document.getElementById('step3-profile').style.display = 'flex';
+    });
+
+    // --- STEP 3: FINAL REGISTRATION ---
+    document.getElementById('createAccountBtn').addEventListener('click', async () => {
+      const payload = {
+        name: document.getElementById('signupName').value.trim(),
+        password: document.getElementById('signupPassword').value.trim(),
+        email: userData.email,
+        otp: userData.emailOtp,
+        phone: userData.phone,
+        firebaseUid: userData.uid
+      };
+
+      if (!payload.name || !payload.password) return alert("Please fill all fields.");
+      document.getElementById('createAccountBtn').innerText = "Creating Account...";
+
+      try {
+        const response = await fetch('http://localhost:3000/api/register-two-step', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem('sharewheels_user', JSON.stringify(data.user));
+          // TRIGGER WELCOME POPUP INSTEAD OF IMMEDIATE REDIRECT
+          showWelcomeModal(data.user);
+        } else {
+          alert("Error: " + data.message);
+          document.getElementById('createAccountBtn').innerText = "Create Account";
+          if (data.message.includes("Invalid")) {
+              document.getElementById('step3-profile').style.display = 'none';
+              document.getElementById('step2-email').style.display = 'flex';
+          }
+        }
+      } catch (err) { alert("Server error."); }
+    });
+  </script>
+
+  <!-- WELCOME POPUP MODAL -->
+  <div id="welcomeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: #ffffff; width: 420px; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); text-align: center; font-family: 'Poppins', sans-serif; position: relative;">
+      <div style="width: 40px; height: 4px; background: #6B8E23; border-radius: 2px; margin: 0 auto 25px auto;"></div>
+      <div id="modalAvatar" style="width: 70px; height: 70px; background: #6B8E23; color: white; font-size: 28px; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px auto; box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);">T</div>
+      <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #7A8375; font-weight: 600; margin: 0 0 5px 0;">Welcome Back</p>
+      <h2 id="modalName" style="color: #304A2F; font-size: 22px; font-weight: 700; margin: 0 0 5px 0;">Taleem Shaikh</h2>
+      <p id="modalEmail" style="color: #7A8375; font-size: 13px; margin: 0 0 30px 0;">taleemshaikh09@gmail.com</p>
+      <button id="modalHomeBtn" style="background: #6B8E23; color: white; border: none; padding: 12px 30px; font-size: 15px; font-weight: 600; border-radius: 30px; cursor: pointer; width: 100%; box-shadow: 0 4px 12px rgba(107, 142, 35, 0.2);">
+        Back to Home
+      </button>
+    </div>
+  </div>
+</body>
+</html>

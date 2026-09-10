@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Profile - ShareWheels</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- MOCK HEADER (Copy your exact global header here) -->
+  <!-- EXACT GLOBAL HEADER -->
+  <header class="site-header">
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="ShareWheels home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" class="brand-svg">
+          <circle cx="12" cy="12" r="10" stroke="#304A2F" stroke-width="3"/>
+          <circle cx="12" cy="12" r="3" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M12 2v7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M12 15v7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M2 12h7" stroke="#6B8E23" stroke-width="2"/>
+          <path d="M15 12h7" stroke="#6B8E23" stroke-width="2"/>
+        </svg>
+        <div class="brand-text">
+          <span class="share-text" style="color: #6B8E23;">Share</span><span class="wheels-text" style="color: #304A2F;">Wheels</span>
+        </div>
+      </a>
+    <div class="nav-actions">
+  <!-- Offer a ride button -->
+  <button class="offer-btn" onclick="window.location.href='publish.html'">Offer a ride</button>
+  
+  <!-- Profile Wrapper -->
+  <div class="profile-menu-wrapper" style="position: relative;">
+    
+    <!-- Profile Button with Inline JS to force it open -->
+    <button class="avatar" aria-label="Profile" onclick="document.getElementById('profileDropdown').style.display = (document.getElementById('profileDropdown').style.display === 'flex') ? 'none' : 'flex'; event.stopPropagation();">●</button>
+    
+    <!-- The Dropdown Menu with Inline CSS -->
+    <div id="profileDropdown" style="display: none; position: absolute; top: 50px; right: 0; width: 160px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-direction: column; z-index: 1000; border: 1px solid #D9DED2; overflow: hidden;">
+      
+      <a href="login.html" style="padding: 14px 20px; text-decoration: none; color: #304A2F; font-weight: 600; font-size: 14px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+        Log in <span style="color: #888;">›</span>
+      </a>
+      <a href="signup.html" style="padding: 14px 20px; text-decoration: none; color: #304A2F; font-weight: 600; font-size: 14px; display: flex; justify-content: space-between;" onmouseover="this.style.backgroundColor='#F5F7EE'" onmouseout="this.style.backgroundColor='transparent'">
+        Sign up <span style="color: #888;">›</span>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- Inline script to close the menu if the user clicks anywhere else on the page -->
+<script>
+  document.addEventListener('click', function(event) {
+    var dropdown = document.getElementById('profileDropdown');
+    if (dropdown && dropdown.style.display === 'flex') {
+      dropdown.style.display = 'none';
+    }
+  });
+</script>
+    <div class="sticky-search" id="stickySearch">
+      <div class="wrap">
+        <div class="desktop-search">
+  <div class="search-field">
+    <small>From</small>
+    <input type="text" id="searchLeavingFrom" class="search-input" placeholder="Locality or Place">
+  </div>
+  
+  <div class="search-field">
+    <small>To</small>
+    <!-- Replaced inputs with select, kept your CSS class, added ID -->
+    <select id="searchGoingTo" class="search-input" style="background: white; cursor: pointer;">
+      <option value="" disabled selected>University's Name</option>
+      <option value="Shivaji College">Shivaji College (Delhi)</option>
+      <option value="IIT Delhi">IIT Delhi (Hauz Khas)</option>
+      <option value="Hansraj College">Hansraj College (North Campus)</option>
+      <option value="IGNOU Regional Centre">IGNOU Regional Centre (Delhi)</option>
+      <option value="Amity University">Amity University (Noida)</option>
+      <option value="Dronacharya College">Dronacharya College (Gurgaon)</option>
+    </select>
+  </div>
+  
+  <div class="search-field">
+    <small>Time</small>
+    <input type="time" class="search-input" value="09:00">
+  </div>
+  
+  <div class="search-field passenger-field">
+    <small>Passengers</small>
+    <div class="passenger-controls">
+      <button type="button" class="qty-btn" onclick="decreasePassengers()">-</button>
+      <input type="text" class="passenger-count-input" value="1 passenger" readonly>
+      <button type="button" class="qty-btn" onclick="increasePassengers()">+</button>
+    </div>
+  </div>
+  
+  <!-- Added ID so JavaScript knows when it's clicked -->
+  <button class="search-btn" id="searchBtn">Search</button>
+</div>
+      </div>
+    </div>
+  </header>
+  <main class="bbc-auth-main login-page">
+    <div class="bbc-auth-container" style="text-align: center; padding: 40px 20px;">
+      
+      <!-- Big Profile Circle -->
+      <div style="width: 80px; height: 80px; background: #6B8E23; color: white; font-size: 32px; font-weight: bold; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 20px;">
+        <span id="profileInitials">?</span>
+      </div>
+
+      <h1 id="profileNameDisplay" style="font-size: 24px; margin-bottom: 5px;">Loading...</h1>
+      <p id="profileEmailDisplay" style="color: #687263; margin-bottom: 30px;">Loading...</p>
+
+      <button onclick="window.location.href='index.html'" class="primary" style="padding: 12px 24px; border-radius: 16px;">Back to Home</button>
+    </div>
+  </main>
+<footer>
+  <div class="wrap footer-top">
+  <div>
+    <h3>Travel with ShareWheels</h3>
+    <a>Rohini → Shyam Lal College</a>
+    <a>Gurgaon → Hansraj College</a>
+    <a>Faridabad → Hansraj College</a>
+    <a>Hansraj College → Anand Vihar</a>
+    <a>Rohini → IIT Delhi</a>
+    <a>Meerut → Khalsa College</a>
+    <a>Popular ShareWheels rides</a>
+  </div>
+  
+  <div>
+    <h3>Find out more</h3>
+    <a>Who we are</a>
+    <a>How does ShareWheels work?</a>
+    <a>Help Centre</a>
+  </div>
+  
+   <div class="socials">
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/wheelsshare" target="_blank" rel="noopener noreferrer" style="color: inherit;">
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></span>
+  </a>
+  
+  <!-- Facebook -->
+  <a href="https://www.facebook.com/share/1YhYDXWpGz/" target="_blank" rel="noopener noreferrer" style="color: inherit;">
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></span>
+  </a>
+  
+  <!-- X (Twitter) -->
+  <a href="https://x.com/king910230" target="_blank" rel="noopener noreferrer" style="color: inherit;">
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></span>
+  </a>
+
+  <!-- GitHub -->
+  <a href="https://github.com/NoobAndBankrupt/ShareWheels" target="_blank" rel="noopener noreferrer" style="color: inherit;">
+    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></span>
+  </a>
+</div>
+</div>  
+    <div class="wrap footer-bottom"><span>Terms and Conditions</span><span> ShareWheels, 2026 ©</span></div>
+  </footer>
+  <div class="cookie"><span>ShareWheels is using cookies to deliver a better service. By using our website, you agree to our policy on cookies usage.</span><button>Close</button></div>
+  <script>
+    // Load data from localStorage and display it
+    const user = JSON.parse(localStorage.getItem('sharewheels_user'));
+    if (user) {
+      document.getElementById('profileNameDisplay').innerText = user.name;
+      document.getElementById('profileEmailDisplay').innerText = user.email;
+      document.getElementById('profileInitials').innerText = user.name.charAt(0).toUpperCase();
+    } else {
+      window.location.href = 'login.html'; // Kick them out if not logged in
+    }
+  
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

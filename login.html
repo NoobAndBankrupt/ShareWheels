@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In - ShareWheels</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Clean toggle button styles */
+    .toggle-container { display: flex; border-radius: 8px; overflow: hidden; border: 1px solid #D9DED2; margin-bottom: 20px; }
+    .toggle-btn { flex: 1; padding: 12px; border: none; background: #F5F7EE; color: #304A2F; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; }
+    .toggle-btn.active { background: #304A2F; color: white; }
+  </style>
+</head>
+<body>
+  <!-- EXACT GLOBAL HEADER (Omitted for brevity, keep your existing header here) -->
+  <header class="site-header">
+      <!-- Your existing ShareWheels header code goes here -->
+  </header>
+
+  <main class="bbc-auth-main login-page">
+    <div class="bbc-auth-container" style="padding: 30px; text-align: center;">
+      <h1 style="margin-bottom: 20px; color: #304A2F;">Welcome Back</h1>
+      
+      <!-- LOGIN METHOD TOGGLE -->
+      <div class="toggle-container">
+        <button id="tabPhone" class="toggle-btn active" onclick="switchTab('phone')">Mobile</button>
+        <button id="tabEmail" class="toggle-btn" onclick="switchTab('email')">Email</button>
+      </div>
+
+      <!--METHOD 1: PHONE LOGIN (FIREBASE)-->
+     <div id="phoneLoginSection">
+    <div id="step1-phone">
+        <!-- New Flexbox layout for country code + number input -->
+        <div style="display: flex; align-items: center; border: 1px solid #D9DED2; border-radius: 8px; margin-bottom: 20px; overflow: hidden; background: #fff;">
+            <span style="padding: 15px; background: #F5F7EE; color: #304A2F; font-weight: 600; border-right: 1px solid #D9DED2;">+91</span>
+            
+            <!-- Type is now "number" and placeholder works! -->
+            <input type="number" id="phoneNumber" placeholder="98765 43210" style="padding: 15px; width: 100%; border: none; outline: none; font-size: 16px; box-sizing: border-box;">
+        </div>
+        
+        <div id="recaptcha-container" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
+        <button id="sendSmsBtn" style="padding: 15px; width: 100%; background: #6B8E23; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold;">Send SMS OTP</button>
+    </div>
+          <div id="step2-phone" style="display: none;">
+              <input type="text" id="smsCode" placeholder="Enter 6-digit SMS code" style="padding: 15px; width: 100%; margin-bottom: 20px; border-radius: 8px; border: 1px solid #D9DED2; text-align: center; letter-spacing: 5px;">
+              <button id="verifySmsBtn" style="padding: 15px; width: 100%; background: #304A2F; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold;">Verify & Log in</button>
+          </div>
+      </div>
+
+      <!-- METHOD 2: EMAIL LOGIN (PASSWORD) -->
+      <div id="emailLoginSection" style="display: none; text-align: left;">
+          <div style="margin-bottom: 20px;">
+              <label style="font-size: 12px; color: #7A8375; margin-bottom: 5px; display: block;">University Email</label>
+              <input type="email" id="loginEmail" placeholder="student@ignou.ac.in" style="padding: 15px; width: 100%; border-radius: 8px; border: 1px solid #D9DED2; font-size: 15px; box-sizing: border-box;">
+          </div>
+          
+          <div style="margin-bottom: 20px;">
+              <label style="font-size: 12px; color: #7A8375; margin-bottom: 5px; display: block;">Password</label>
+              <input type="password" id="loginPassword" placeholder="••••••••" style="padding: 15px; width: 100%; border-radius: 8px; border: 1px solid #D9DED2; font-size: 15px; box-sizing: border-box;">
+          </div>
+
+          <button id="loginEmailBtn" style="padding: 15px; width: 100%; background: #304A2F; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 15px;">Log in with Email</button>
+      </div>
+  </main>
+
+  <!-- TAB SWITCHING & WELCOME MODAL LOGIC -->
+  <script>
+    function switchTab(method) {
+      document.getElementById('tabPhone').classList.remove('active');
+      document.getElementById('tabEmail').classList.remove('active');
+      document.getElementById('phoneLoginSection').style.display = 'none';
+      document.getElementById('emailLoginSection').style.display = 'none';
+
+      if(method === 'phone') {
+        document.getElementById('tabPhone').classList.add('active');
+        document.getElementById('phoneLoginSection').style.display = 'block';
+      } else {
+        document.getElementById('tabEmail').classList.add('active');
+        document.getElementById('emailLoginSection').style.display = 'block';
+      }
+    }
+
+    // Function to trigger your custom welcome modal card
+    function showWelcomeModal(user) {
+      const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+      document.getElementById('modalAvatar').innerText = initial;
+      document.getElementById('modalName').innerText = user.name || 'Carpooler';
+      document.getElementById('modalEmail').innerText = user.email || '';
+
+      document.getElementById('welcomeModal').style.display = 'flex';
+
+      const proceedHome = () => {
+        window.location.href = 'index.html';
+      };
+
+      document.getElementById('modalHomeBtn').addEventListener('click', proceedHome);
+      setTimeout(proceedHome, 3500); // Auto-redirect after 3.5 seconds
+    }
+  </script>
+
+  <!-- FIREBASE LOGIC (PHONE) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDQcIDqRaHJq23HdjsDwdgboOPA6jUxVSI",
+      authDomain: "sharewheels-b9ab6.firebaseapp.com",
+      projectId: "sharewheels-b9ab6",
+      storageBucket: "sharewheels-b9ab6.firebasestorage.app",
+      messagingSenderId: "138178429966",
+      appId: "1:138178429966:web:8665013be561ee29df685f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { 'size': 'normal' });
+
+    // Send SMS
+    document.getElementById('sendSmsBtn').addEventListener('click', () => {
+      const rawNumber = document.getElementById('phoneNumber').value.trim();
+      
+      if (rawNumber.length !== 10) return alert("Please enter a valid 10-digit mobile number.");
+      const phone = "+91" + rawNumber; 
+      
+      signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+        .then((result) => {
+          window.confirmationResult = result;
+          document.getElementById('step1-phone').style.display = 'none';
+          document.getElementById('step2-phone').style.display = 'block';
+        }).catch(err => alert("Error sending SMS. Ensure the number is correct."));
+    });
+
+    // Verify SMS & Login to Backend
+    document.getElementById('verifySmsBtn').addEventListener('click', () => {
+      const code = document.getElementById('smsCode').value.trim();
+      window.confirmationResult.confirm(code).then(async (result) => {
+        
+        const response = await fetch('http://localhost:3000/api/firebase-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone: result.user.phoneNumber, uid: result.user.uid })
+        });
+        
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem('sharewheels_user', JSON.stringify(data.user));
+          showWelcomeModal(data.user); // Triggers your custom modal popup!
+        } else {
+          alert(data.message);
+        }
+      }).catch(err => alert("Invalid OTP code."));
+    });
+  </script>
+
+ <!-- EMAIL & PASSWORD LOGIN LOGIC -->
+  <script>
+    document.getElementById('loginEmailBtn').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      
+      if (!email || !password) return alert("Please enter both your email and password.");
+      
+      document.getElementById('loginEmailBtn').innerText = "Logging in...";
+
+      try {
+        const response = await fetch('http://localhost:3000/api/login', { 
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem('sharewheels_user', JSON.stringify(data.user));
+          showWelcomeModal(data.user); // Triggers your custom modal popup!
+        } else {
+          alert("Error: " + data.message);
+          document.getElementById('loginEmailBtn').innerText = "Log in with Email";
+        }
+      } catch (err) { 
+        alert("Server error connecting to database."); 
+        document.getElementById('loginEmailBtn').innerText = "Log in with Email";
+      }
+    });
+  </script>
+
+  <!-- WELCOME POPUP MODAL HTML -->
+  <div id="welcomeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: #ffffff; width: 420px; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); text-align: center; font-family: 'Poppins', sans-serif; position: relative;">
+      
+      <!-- Top green indicator bar -->
+      <div style="width: 40px; height: 4px; background: #6B8E23; border-radius: 2px; margin: 0 auto 25px auto;"></div>
+
+      <!-- User Initial Avatar Circle -->
+      <div id="modalAvatar" style="width: 70px; height: 70px; background: #6B8E23; color: white; font-size: 28px; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px auto; box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);">
+        T
+      </div>
+
+      <!-- Subtitle -->
+      <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #7A8375; font-weight: 600; margin: 0 0 5px 0;">Welcome Back</p>
+
+      <!-- Dynamic Name -->
+      <h2 id="modalName" style="color: #304A2F; font-size: 22px; font-weight: 700; margin: 0 0 5px 0;">Taleem Shaikh</h2>
+
+      <!-- Dynamic Email -->
+      <p id="modalEmail" style="color: #7A8375; font-size: 13px; margin: 0 0 30px 0;">taleemshaikh09@gmail.com</p>
+
+      <!-- Back to Home Button -->
+      <button id="modalHomeBtn" style="background: #6B8E23; color: white; border: none; padding: 12px 30px; font-size: 15px; font-weight: 600; border-radius: 30px; cursor: pointer; width: 100%; box-shadow: 0 4px 12px rgba(107, 142, 35, 0.2); transition: background 0.2s;">
+        Back to Home
+      </button>
+    </div>
+  </div>
+</body>
+</html>
